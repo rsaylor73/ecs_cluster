@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   }
   container_definitions = jsonencode([
     {
-      name      = "${var.cluster_name}-image"
+      name      = "${var.cluster_name}-container"
       image     = aws_ecr_repository.app-ecr.arn
       cpu       = 256
       memory    = 512
