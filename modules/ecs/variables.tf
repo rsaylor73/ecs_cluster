@@ -1,0 +1,9 @@
+variable "security_group_id" {}
+variable "ami_image" {}
+variable "instance_type" {}
+variable "private_subnets" {}
+variable "desired_capacity" {}
+variable "max_size" {}
+variable "min_size" {}
+variable "vpc_id" {}
+variable "cluster_name" {}
