@@ -13,6 +13,10 @@ terraform plan -out plan.txt
 terraform apply "plan.txt"
 ```
 
+### RSA Key
+
+Create a key in EC2 and name it 'ecs-key'
+
 ### ECR Image
 
 Note: You must create a docker image and push that image to ECR. In order
