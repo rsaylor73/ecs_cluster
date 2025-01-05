@@ -23,6 +23,8 @@ then launch an EC2 image to create a docker image and push it to the ECR.
 Attach the ec2-role to the EC2 so the EC2 will have proper permissions
 to push to the ECR repository.
 
+Re-run terraform plan and apply once the image is pushed to ECR.
+
 ### Destroy Cluster
 
 Note: If you created an EC2 to create the ECR image under the same VPC as the cluster you must 
