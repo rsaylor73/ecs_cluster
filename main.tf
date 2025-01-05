@@ -19,4 +19,5 @@ module "ecs" {
   min_size = var.min_size
   vpc_id = module.vpc.vpc_id
   cluster_name = var.cluster_name
+  private_subnet_ids = module.vpc.private_subnet_ids
 }

@@ -9,3 +9,7 @@ output "private_subnets" {
 output "security_group_id" {
   value = aws_security_group.security_group.id
 }
+
+output "private_subnet_ids" {
+  value = module.vpc.private_subnet_objects
+}
