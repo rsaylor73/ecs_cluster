@@ -3,7 +3,7 @@ resource "aws_lb" "ecs_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [var.security_group_id]
-  subnets            = [var.private_subnets]
+  subnets            = flatten([var.private_subnets])
 
   tags = {
     Name = "ecs-alb"

@@ -63,7 +63,7 @@ resource "aws_ecs_service" "ecs_service" {
   desired_count   = 2
 
   network_configuration {
-    subnets         = [var.private_subnets]
+    subnets         = flatten([var.private_subnets])
     security_groups = [var.security_group_id]
   }
 
