@@ -16,3 +16,8 @@ resource "aws_iam_role_policy_attachments_exclusive" "ec2-role" {
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 }
+
+resource "aws_iam_instance_profile" "ecs_profile" {
+  name = "EcsInstanceProfile"
+  role = aws_iam_role.ec2-role.name
+}
