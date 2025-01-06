@@ -2,6 +2,21 @@
 
 - Create ecsTaskExecutionRole
 
+# AMI Image
+
+Download and install packer to build a new AMI image based off Ubuntu 24.04.
+
+https://developer.hashicorp.com/packer/install
+
+You will need to update the AWS profile to match your credentials file. Packer should be run from your workstation/laptop. You will also need to update the VPC and Subnet in the variables section.
+
+```
+cd packer
+packer build ubuntu-24.04 
+```
+
+Update terraform.tfvars with the AMI you created.
+
 # Installation
 
 Update the settings in terraform.tfvars including the cluster name and VPC CIDRs.
