@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "ami_name": "ubuntu-24-04",
+    "region": "us-east-1",
+    "subnet_id": "subnet-0e192e65f039c8994",
+    "vpc_id": "vpc-018254c63949bf22b",
+    "source_ami": "ami-0e2c8caa4b6378d8c"
+  },
+  "builders": [
+    {
+      "ami_name": "{{user `ami_name`}}-{{timestamp}}",
+      "associate_public_ip_address": true,
+      "instance_type": "t2.micro",
+      "profile": "ecs_training",
+      "region": "{{user `region`}}",
+      "skip_region_validation": true,
+      "source_ami": "{{ user `source_ami`}}",
+      "ssh_username": "ubuntu",
+      "subnet_id": "{{user `subnet_id`}}",
+      "type": "amazon-ebs",
+      "vpc_id": "{{ user `vpc_id`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "{{.Vars}} bash '{{.Path}}'",
+      "scripts": [
+        "scripts/dependencies.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}
