@@ -13,7 +13,8 @@ resource "aws_iam_role_policy_attachments_exclusive" "ec2-role" {
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
     "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess"
   ]
 }
 

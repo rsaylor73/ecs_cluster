@@ -32,7 +32,9 @@ resource "aws_ecs_cluster_capacity_providers" "example" {
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family             = "${var.cluster_name}-ecs-task"
   network_mode       = "awsvpc"
-  execution_role_arn = "arn:aws:iam::${local.account_id}:role/ecsTaskExecutionRole"
+
+  # This is optional for EC2 but required for Fargate
+  #execution_role_arn = "arn:aws:iam::${local.account_id}:role/ecsTaskExecutionRole"
   cpu                = 256
   runtime_platform {
     operating_system_family = "LINUX"

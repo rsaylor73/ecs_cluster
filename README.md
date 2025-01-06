@@ -1,6 +1,6 @@
-Credits: https://spacelift.io/blog/terraform-ecs (Sumeet Ninawe)
+# TO DO
 
-- The code from the source site was re-formatted to work as a Terraform module.
+- Create ecsTaskExecutionRole
 
 # Installation
 
@@ -12,6 +12,11 @@ terraform validate
 terraform plan -out plan.txt
 terraform apply "plan.txt"
 ```
+
+### Credits
+Credits: https://spacelift.io/blog/terraform-ecs (Sumeet Ninawe)
+
+- The code from the source site was re-formatted to work as a Terraform module.
 
 ### RSA Key
 
@@ -28,6 +33,17 @@ Attach the ec2-role to the EC2 so the EC2 will have proper permissions
 to push to the ECR repository.
 
 Re-run terraform plan and apply once the image is pushed to ECR.
+
+To create the image change to the Docker directory then run the following:
+
+Note: you must first have docker installed. (https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
+
+```
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+docker build -t ecs-demo-image .
+docker tag ecs-demo-image:latest <account-id>.dkr.ecr.<region>.amazonaws.com/ecs-demo-image:latest
+docker push <account-id>.dkr.ecr.<region>.amazonaws.com/ecs-demo-image:latest
+```
 
 ### Destroy Cluster
 
