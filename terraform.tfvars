@@ -7,6 +7,6 @@ public_subnet_cidr2="10.1.4.0/24"
 
 ami_image="ami-01816d07b1128cd2d"
 instance_type="t2.micro"
-desired_capacity=2
-max_size=3
+desired_capacity=1
+max_size=1
 min_size=1
