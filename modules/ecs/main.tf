@@ -80,7 +80,7 @@ module "ecs" {
       }
 
       service_connect_configuration = {
-        namespace = "example"
+        #namespace = "example"
         service = {
           client_alias = {
             port     = 80
