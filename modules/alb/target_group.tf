@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "target_group" {
-  name        = "target_group"
+  name        = var.cluster_name
   # 32 character max-length
   port        = "80"
   protocol    = "HTTP"
