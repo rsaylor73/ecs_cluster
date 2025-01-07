@@ -51,6 +51,8 @@ module "ecs" {
             }
           ]
 
+          readonly_root_filesystem = false
+
           memory_reservation = 100
         }
       }
