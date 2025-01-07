@@ -30,7 +30,7 @@ module "ecs" {
   }
 
   services = {
-    ecsdemo-frontend = {
+    nginx_frontend = {
       cpu    = 1024
       memory = 4096
 
@@ -38,8 +38,8 @@ module "ecs" {
       container_definitions = {
 
         nginx = {
-          cpu       = 512
-          memory    = 1024
+          cpu       = 256
+          memory    = 512
           essential = true
           image     = "public.ecr.aws/nginx/nginx:stable-perl"
 
@@ -68,13 +68,13 @@ module "ecs" {
         }
       }
 
-      #load_balancer = {
-      #  service = {
-      #    target_group_arn = "arn:aws:elasticloadbalancing:eu-west-1:1234567890:targetgroup/bluegreentarget1/209a844cd01825a4"
-      #    container_name   = "ecs-sample"
-      #    container_port   = 80
-      #  }
-      #}
+      load_balancer = {
+        service = {
+          target_group_arn = var.target_groups
+          container_name   = "nginx_frontend"
+          container_port   = 80
+        }
+      }
 
       subnet_ids = flatten([var.private_subnets])
       security_group_rules = {
