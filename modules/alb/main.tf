@@ -23,6 +23,7 @@ module "alb" {
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
+
   security_group_egress_rules = {
     all = {
       ip_protocol = "-1"
@@ -42,21 +43,20 @@ module "alb" {
     http_tcp_listeners = {
       port               = "80"
       protocol           = "HTTP"
+      forward = {
+        target_group_key = "container"
+      }
       #target_group_index = 0
     }
   }
 
-  target_groups = [
-    {
-      name             = "${var.cluster_name}-tg"
-      backend_protocol = "HTTP"
-      backend_port     = "80"
-      target_type      = "ip"
-      health_check = {
-        path    = "/"
-        port    = "80"
-        matcher = "200-299"
-      }
+  target_groups = {
+    container = {
+      name_prefix      = "h1"
+      protocol         = "HTTP"
+      port             = 80
     }
-  ]
+  }
+
+
 }
