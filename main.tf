@@ -23,4 +23,5 @@ module "alb" {
   private_subnets_cidr2 = var.private_subnets_cidr2
   public_subnets = module.vpc.public_subnets
   vpc_id = module.vpc.vpc_id
+  security_group = module.ecs.aws_security_group
 }

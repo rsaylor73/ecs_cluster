@@ -1,45 +1,50 @@
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
-  version = "~> 9.13"
+  version = "9.13.0"
 
-  name = "${var.cluster_name}-alb"
-
-  load_balancer_type = "application"
-
+  name    = var.cluster_name
   vpc_id  = var.vpc_id
   subnets = flatten([var.public_subnets])
-  security_group_rules = {
-    ingress_all_http = {
-      type        = "ingress"
+
+  # Security Group
+  security_group_ingress_rules = {
+    all_http = {
       from_port   = 80
       to_port     = 80
-      protocol    = "tcp"
+      ip_protocol = "tcp"
       description = "HTTP web traffic"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_ipv4   = "0.0.0.0/0"
     }
-    egress_all = {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = [var.private_subnets_cidr1]
+    all_https = {
+      from_port   = 443
+      to_port     = 443
+      ip_protocol = "tcp"
+      description = "HTTPS web traffic"
+      cidr_ipv4   = "0.0.0.0/0"
     }
-    egress_all = {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = [var.private_subnets_cidr2]
+  }
+  security_group_egress_rules = {
+    all = {
+      ip_protocol = "-1"
+      cidr_ipv4   = "${var.private_subnets_cidr1}"
+    }
+    all = {
+      ip_protocol = "-1"
+      cidr_ipv4   = "${var.private_subnets_cidr2}"
     }
   }
 
-  http_tcp_listeners = [
-    {
+  #access_logs = {
+  #  bucket = "my-alb-logs"
+  #}
+
+  listeners = {
+    http_tcp_listeners = {
       port               = "80"
       protocol           = "HTTP"
-      target_group_index = 0
-    },
-  ]
+      #target_group_index = 0
+    }
+  }
 
   target_groups = [
     {
@@ -55,4 +60,9 @@ module "alb" {
     },
   ]
 
+  alb_name            = var.cluster_name
+  alb_security_groups = var.security_group
+  #certificate_arn     = ""
+  health_check_path   = "/"
+  region              = "us-east-1"
 }
