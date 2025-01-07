@@ -9,15 +9,22 @@ module "vpc" {
 }
 
 module "ecs" {
-  source = "./modules/ecs"
-  security_group_id = module.vpc.security_group_id
-  ami_image = var.ami_image
-  instance_type = var.instance_type
-  private_subnets = module.vpc.private_subnets
-  desired_capacity = var.desired_capacity
-  max_size = var.max_size
-  min_size = var.min_size
-  vpc_id = module.vpc.vpc_id
+  source = "modules/ecs"
   cluster_name = var.cluster_name
-  private_subnet_ids = module.vpc.private_subnet_ids
+  private_subnets = module.vpc.private_subnets
+  vpc_id = module.vpc.vpc_id
 }
+
+#module "ecs" {
+#  source = "modules/ecs_old"
+#  security_group_id = module.vpc.security_group_id
+#  ami_image = var.ami_image
+#  instance_type = var.instance_type
+#  private_subnets = module.vpc.private_subnets
+#  desired_capacity = var.desired_capacity
+#  max_size = var.max_size
+#  min_size = var.min_size
+#  vpc_id = module.vpc.vpc_id
+#  cluster_name = var.cluster_name
+#  private_subnet_ids = module.vpc.private_subnet_ids
+#}
