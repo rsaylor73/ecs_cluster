@@ -1,3 +1,3 @@
-output "target_group" {
-  value = module.alb.target_groups
-}
+#output "target_group" {
+#  value = module.alb.target_groups
+#}

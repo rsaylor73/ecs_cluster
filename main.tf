@@ -13,7 +13,7 @@ module "ecs" {
   cluster_name = var.cluster_name
   private_subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
-  target_groups = module.alb.target_group
+  #target_groups = module.alb.target_group
 }
 
 module "alb" {

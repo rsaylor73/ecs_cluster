@@ -68,13 +68,13 @@ module "ecs" {
         }
       }
 
-      load_balancer = {
-        service = {
-          target_group_arn = var.target_groups
-          container_name   = "nginx_frontend"
-          container_port   = 80
-        }
-      }
+      #load_balancer = {
+      #  service = {
+      #    target_group_arn = var.target_groups
+      #    container_name   = "nginx_frontend"
+      #    container_port   = 80
+      #  }
+      #}
 
       subnet_ids = flatten([var.private_subnets])
       security_group_rules = {

@@ -39,16 +39,15 @@ module "alb" {
   #  bucket = "my-alb-logs"
   #}
 
-  listeners = {
-    http_tcp_listeners = {
-      port               = "80"
-      protocol           = "HTTP"
-      forward = {
-        target_group_key = "container"
-      }
-      #target_group_index = 0
-    }
-  }
+  #listeners = {
+  #  http_tcp_listeners = {
+  #    port               = "80"
+  #    protocol           = "HTTP"
+  #    forward = {
+  #      target_group_key = "container"
+  #    }
+  #  }
+  #}
 
   #target_groups = {
   #  container = {
