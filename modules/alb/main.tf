@@ -57,12 +57,6 @@ module "alb" {
         port    = "80"
         matcher = "200-299"
       }
-    },
+    }
   ]
-
-  alb_name            = var.cluster_name
-  alb_security_groups = var.security_group
-  #certificate_arn     = ""
-  health_check_path   = "/"
-  region              = "us-east-1"
 }
