@@ -37,48 +37,20 @@ module "ecs" {
       # Container definition(s)
       container_definitions = {
 
-        fluent-bit = {
+        nginx = {
           cpu       = 512
           memory    = 1024
           essential = true
-          image     = "906394416424.dkr.ecr.us-west-2.amazonaws.com/aws-for-fluent-bit:stable"
-          firelens_configuration = {
-            type = "fluentbit"
-          }
-          memory_reservation = 50
-        }
+          image     = "public.ecr.aws/nginx/nginx:stable-perl"
 
-        ecs-sample = {
-          cpu       = 512
-          memory    = 1024
-          essential = true
-          image     = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
           port_mappings = [
             {
-              name          = "ecs-sample"
+              name          = "nginx"
               containerPort = 80
               protocol      = "tcp"
             }
           ]
 
-          # Example image used requires access to write to root filesystem
-          readonly_root_filesystem = false
-
-          dependencies = [{
-            containerName = "fluent-bit"
-            condition     = "START"
-          }]
-
-          enable_cloudwatch_logging = false
-          log_configuration = {
-            logDriver = "awsfirelens"
-            options = {
-              Name                    = "firehose"
-              region                  = "us-east-1"
-              delivery_stream         = "my-stream"
-              log-driver-buffer-limit = "2097152"
-            }
-          }
           memory_reservation = 100
         }
       }
@@ -87,10 +59,10 @@ module "ecs" {
         service = {
           client_alias = {
             port     = 80
-            dns_name = "ecs-sample"
+            dns_name = "nginx"
           }
-          port_name      = "ecs-sample"
-          discovery_name = "ecs-sample"
+          port_name      = "nginx"
+          discovery_name = "nginx"
         }
       }
 
