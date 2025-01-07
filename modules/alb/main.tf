@@ -50,13 +50,14 @@ module "alb" {
     }
   }
 
-  target_groups = {
-    container = {
-      name_prefix      = "h1"
-      protocol         = "HTTP"
-      port             = 80
-    }
-  }
+  #target_groups = {
+  #  container = {
+  #    name_prefix      = "h1"
+  #    protocol         = "HTTP"
+  #    port             = 80
+  #    target_id        = ""
+  #  }
+  #}
 
 
 }
