@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "nginx" {
   container_definitions = jsonencode([
     {
       name      = "nginx"
-      image     = var.nginx_ecr_repository_url
+      image     = "public.ecr.aws/nginx/nginx:stable-perl"
       essential = true
       cpu       = 256
       memory    = 256
