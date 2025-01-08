@@ -5,3 +5,6 @@ private_subnets_cidr2="10.1.2.0/24"
 public_subnet_cidr1="10.1.3.0/24"
 public_subnet_cidr2="10.1.4.0/24"
 
+nginx_ecr_repository_url="public.ecr.aws/nginx/nginx:stable-perl"
+logs_group="/ecs/test"
+region="us-east-1"

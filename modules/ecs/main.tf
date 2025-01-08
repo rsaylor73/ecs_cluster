@@ -1,104 +1,92 @@
-module "ecs" {
-  source = "terraform-aws-modules/ecs/aws"
+locals {
+  services = ["nginx"] // https://github.com/WillBrock/terraform-ecs/blob/main/main.tf
+}
 
-  cluster_name = var.cluster_name
+resource "aws_ecs_cluster" "my_cluster" {
+  name = var.cluster_name
+}
 
-  cluster_service_connect_defaults = {
-    namespace = aws_service_discovery_private_dns_namespace.this.arn
-  }
+resource "aws_ecs_task_definition" "nginx" {
+  family                   = "nginx"
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "256"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
-  cluster_configuration = {
-    execute_command_configuration = {
-      logging = "OVERRIDE"
-      log_configuration = {
-        cloud_watch_log_group_name = "/aws/ecs/aws-ec2"
-      }
-    }
-  }
+  container_definitions = jsonencode([
+    {
+      name      = "nginx"
+      image     = var.nginx_ecr_repository_url
+      essential = true
+      cpu       = 256
+      memory    = 256
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+          protocol      = "tcp"
+        },
+      ]
 
-  fargate_capacity_providers = {
-    FARGATE = {
-      default_capacity_provider_strategy = {
-        weight = 50
-      }
-    }
-    FARGATE_SPOT = {
-      default_capacity_provider_strategy = {
-        weight = 50
-      }
-    }
-  }
-
-  services = {
-    nginx_frontend = {
-      cpu    = 1024
-      memory = 4096
-
-      # Container definition(s)
-      container_definitions = {
-
-        nginx = {
-          cpu       = 256
-          memory    = 512
-          essential = true
-          image     = "public.ecr.aws/nginx/nginx:stable-perl"
-
-          port_mappings = [
-            {
-              name          = "nginx"
-              containerPort = 80
-              protocol      = "tcp"
-            }
-          ]
-
-          readonly_root_filesystem = false
-
-          memory_reservation = 100
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = var.logs_group
+          "awslogs-region"        = var.region
+          "awslogs-stream-prefix" = "nginx"
         }
       }
+    },
+  ])
+}
 
-      service_connect_configuration = {
-        service = {
-          client_alias = {
-            port     = 80
-            dns_name = "nginx"
-          }
-          port_name      = "nginx"
-          discovery_name = "nginx"
-        }
-      }
+resource "aws_ecs_service" "nginx_service" {
+  name                 = "nginx-service"
+  cluster              = aws_ecs_cluster.my_cluster.id
+  task_definition      = aws_ecs_task_definition.nginx.arn
+  launch_type          = "FARGATE"
+  desired_count        = 5
+  force_new_deployment = true
 
-      #load_balancer = {
-      #  service = {
-      #    target_group_arn = var.target_groups
-      #    container_name   = "nginx_frontend"
-      #    container_port   = 80
-      #  }
-      #}
-
-      subnet_ids = flatten([var.private_subnets])
-      security_group_rules = {
-        alb_ingress_3000 = {
-          type                     = "ingress"
-          from_port                = 80
-          to_port                  = 80
-          protocol                 = "tcp"
-          description              = "Service port"
-          source_security_group_id = aws_security_group.ecs_sg.id
-        }
-        egress_all = {
-          type        = "egress"
-          from_port   = 0
-          to_port     = 0
-          protocol    = "-1"
-          cidr_blocks = ["0.0.0.0/0"]
-        }
-      }
-    }
+  network_configuration {
+    subnets          = flatten([var.private_subnets])
+    security_groups  = [aws_security_group.nginx_sg.id]
+    assign_public_ip = false
   }
 
-  tags = {
-    Environment = "Development"
-    Project     = "Example"
+  load_balancer {
+    target_group_arn = aws_lb_target_group.nginx_tg.arn
+    container_name   = "nginx"
+    container_port   = 80
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.nginx.arn
+  }
+}
+
+resource "aws_lb" "nginx_lb" {
+  name               = "nginx-lb"
+  internal           = false
+  subnets            = flatten([var.public_subnets])
+  security_groups    = [aws_security_group.nginx_sg.id]
+  load_balancer_type = "application"
+}
+
+resource "aws_lb_target_group" "nginx_tg" {
+  name        = "nginx-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+}
+
+resource "aws_lb_listener" "nginx_listener" {
+  load_balancer_arn = aws_lb.nginx_lb.arn
+  port              = "80"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.nginx_tg.arn
   }
 }
