@@ -5,6 +5,6 @@ variable "private_subnets_cidr2" {}
 variable "public_subnet_cidr1" {}
 variable "public_subnet_cidr2" {}
 
-variable "nginx_ecr_repository_url" {}
+variable "ecr_repository" {}
 variable "logs_group" {}
 variable "region" {}

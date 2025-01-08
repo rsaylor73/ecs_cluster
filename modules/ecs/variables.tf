@@ -1,5 +1,5 @@
 variable "cluster_name" {}
-variable "nginx_ecr_repository_url" {}
+variable "ecr_repository" {}
 variable "logs_group" {}
 variable "region" {}
 variable "private_subnets" {}

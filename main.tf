@@ -11,7 +11,7 @@ module "vpc" {
 module "ecs" {
   source = "./modules/ecs"
   cluster_name = var.cluster_name
-  nginx_ecr_repository_url = ""
+  ecr_repository = var.ecr_repository
   logs_group = var.logs_group
   region = var.region
   private_subnets = module.vpc.private_subnets
