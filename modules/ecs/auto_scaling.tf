@@ -1,15 +1,12 @@
 resource "aws_appautoscaling_target" "ecs_service" {
-  #for_each           = toset(local.services)
   max_capacity       = 10
   min_capacity       = 1
-  #resource_id       = "service/${var.cluster_name}/${each.key}-service"
   resource_id        = "service/nginx-service"
   scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
+  service_namespace  = aws_service_discovery_private_dns_namespace.app.name
 }
 
 resource "aws_appautoscaling_policy" "scale_out" {
-  #for_each           = toset(local.services)
   name               = "${var.cluster_name}-scale-out"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_service.resource_id
