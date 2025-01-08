@@ -1,8 +1,9 @@
 resource "aws_appautoscaling_target" "ecs_service" {
-  for_each           = toset(local.services)
+  #for_each           = toset(local.services)
   max_capacity       = 10
   min_capacity       = 1
-  resource_id        = "service/${var.cluster_name}/${each.key}-service"
+  #resource_id       = "service/${var.cluster_name}/${each.key}-service"
+  resource_id        = "service/nginx-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
