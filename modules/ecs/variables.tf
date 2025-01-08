@@ -5,3 +5,13 @@ variable "region" {}
 variable "private_subnets" {}
 variable "public_subnets" {}
 variable "vpc_id" {}
+variable "asg_min_capacity" {}
+variable "asg_max_capacity" {}
+# scale_out values
+variable "cpu_target_value" {}
+variable "scale_in_cooldown" {}
+variable "scale_out_cooldown" {}
+# scale_in values
+variable "cpu_target_value_si" {}
+variable "scale_in_cooldown_si" {}
+variable "scale_out_cooldown_si" {}

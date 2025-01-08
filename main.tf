@@ -17,4 +17,12 @@ module "ecs" {
   private_subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
   public_subnets = module.vpc.public_subnets
+  asg_min_capacity = var.asg_min_capacity
+  asg_max_capacity = var.asg_max_capacity
+  cpu_target_value = var.cpu_target_value
+  scale_in_cooldown = var.scale_in_cooldown
+  scale_out_cooldown = var.scale_out_cooldown
+  cpu_target_value_si = var.cpu_target_value_si
+  scale_in_cooldown_si = var.scale_in_cooldown_si
+  scale_out_cooldown_si = var.scale_out_cooldown_si
 }
