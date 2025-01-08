@@ -8,13 +8,6 @@ module "vpc" {
   public_subnet_cidr2 = var.public_subnet_cidr2
 }
 
-#module "ecs" {
-#  source = "modules/ecs_historic"
-#  cluster_name = var.cluster_name
-#  private_subnets = module.vpc.private_subnets
-#  vpc_id = module.vpc.vpc_id
-#}
-
 module "ecs" {
   source = "./modules/ecs"
   cluster_name = var.cluster_name

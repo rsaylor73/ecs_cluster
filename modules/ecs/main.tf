@@ -46,7 +46,7 @@ resource "aws_ecs_service" "nginx_service" {
   cluster              = aws_ecs_cluster.my_cluster.id
   task_definition      = aws_ecs_task_definition.nginx.arn
   launch_type          = "FARGATE"
-  desired_count        = 5
+  desired_count        = 2
   force_new_deployment = true
 
   network_configuration {
