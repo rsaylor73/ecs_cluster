@@ -1,4 +1,3 @@
-/*
 resource "aws_appautoscaling_target" "ecs_service" {
   for_each           = toset(local.services)
   max_capacity       = 10
@@ -45,4 +44,3 @@ resource "aws_appautoscaling_policy" "scale_in" {
     }
   }
 }
-*/
