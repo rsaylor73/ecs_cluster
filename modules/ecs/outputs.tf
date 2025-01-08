@@ -6,3 +6,7 @@ output "aws_security_group" {
   value = aws_security_group.ecs_sg.arn
 }
 
+output "cluster_id" {
+  value = module.ecs.cluster_id
+}
+
