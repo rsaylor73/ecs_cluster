@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "nginx" {
       image     = "public.ecr.aws/nginx/nginx:stable-perl"
       essential = true
       cpu       = 256
-      memory    = 256
+      memory    = 512
       portMappings = [
         {
           containerPort = 80
