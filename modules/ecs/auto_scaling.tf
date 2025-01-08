@@ -3,7 +3,7 @@ resource "aws_appautoscaling_target" "ecs_service" {
   min_capacity       = 1
   resource_id        = "service/nginx-service"
   scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = aws_service_discovery_private_dns_namespace.app.id
+  service_namespace  = "ecs"
 }
 
 resource "aws_appautoscaling_policy" "scale_out" {
