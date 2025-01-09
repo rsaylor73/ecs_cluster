@@ -56,3 +56,14 @@ resource "aws_iam_role_policy" "containerAppBuildProjectRolePolicy" {
   role = aws_iam_role.containerAppBuildProjectRole.name
   policy = data.aws_iam_policy_document.containerAppBuildProjectRolePolicy.json
 }
+
+resource "aws_iam_role" "apps_codepipeline_role" {
+  name               = "apps-code-pipeline-role"
+  assume_role_policy = data.aws_iam_policy_document.apps_codepipeline_role.json
+}
+
+resource "aws_iam_role_policy" "apps_codepipeline_role_policy" {
+  name   = "apps-codepipeline-role-policy"
+  role   = aws_iam_role.apps_codepipeline_role.id
+  policy = data.aws_iam_policy_document.apps_codepipeline_role_policy.json
+}
