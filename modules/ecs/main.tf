@@ -72,6 +72,7 @@ resource "aws_lb" "nginx_lb" {
   subnets            = flatten([var.public_subnets])
   security_groups    = [aws_security_group.nginx_sg.id]
   load_balancer_type = "application"
+  enable_deletion_protection = false
 }
 
 resource "aws_lb_target_group" "nginx_tg" {

@@ -45,3 +45,9 @@ resource "aws_iam_policy" "ecs_logging_policy" {
     ]
   })
 }
+
+resource "aws_iam_role" "containerAppBuildProjectRole" {
+  name = "containerAppBuildProjectRole"
+
+  assume_role_policy = data.aws_iam_policy_document.containerAppBuildProjectRole.json
+}
