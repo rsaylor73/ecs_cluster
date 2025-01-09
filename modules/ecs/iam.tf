@@ -1,19 +1,6 @@
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecs_task_execution_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Principal = {
-          Service = "ecs-tasks.amazonaws.com"
-        }
-        Effect = "Allow"
-        Sid    = ""
-      },
-    ]
-  })
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
@@ -29,26 +16,11 @@ resource "aws_iam_role_policy_attachment" "ecs_logging_policy_attachment" {
 resource "aws_iam_policy" "ecs_logging_policy" {
   name        = "ecs_logging_policy"
   description = "Allows ECS tasks to send logs to CloudWatch"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "logs:CreateLogGroup"
-        ],
-        Resource = "arn:aws:logs:*:*:*"
-      },
-    ]
-  })
+  policy = data.aws_iam_policy_document.ecs_logging_policy.json
 }
 
 resource "aws_iam_role" "containerAppBuildProjectRole" {
   name = "containerAppBuildProjectRole"
-
   assume_role_policy = data.aws_iam_policy_document.containerAppBuildProjectRole.json
 }
 

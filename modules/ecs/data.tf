@@ -1,3 +1,30 @@
+data "aws_iam_policy_document" "ecs_task_execution_role" {
+  statement {
+    actions = [
+      "sts:AssumeRole"
+    ]
+    effect = "Allow"
+    principals {
+      type = "Service"
+      identifiers = [
+        "ecs-tasks.amazonaws.com"
+      ]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "ecs_logging_policy" {
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:CreateLogGroup"
+    ]
+    effect = "Allow"
+    resources = ["arn:aws:logs:*:*:*"]
+  }
+}
+
 data "aws_iam_policy_document" "containerAppBuildProjectRole" {
   statement {
     actions = [
