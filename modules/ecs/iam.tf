@@ -51,3 +51,8 @@ resource "aws_iam_role" "containerAppBuildProjectRole" {
 
   assume_role_policy = data.aws_iam_policy_document.containerAppBuildProjectRole.json
 }
+
+resource "aws_iam_role_policy" "containerAppBuildProjectRolePolicy" {
+  role = aws_iam_role.containerAppBuildProjectRole.name
+  policy = data.aws_iam_policy_document.containerAppBuildProjectRolePolicy.json
+}
