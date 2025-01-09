@@ -36,4 +36,28 @@ resource "aws_codepipeline" "app_pipeline" {
     }
   }
 
+  stage {
+    name = "Build"
+
+    action {
+      category = "Build"
+
+      configuration = {
+        ProjectName = var.cluster_name
+      }
+
+      input_artifacts  = ["SourceArtifact"]
+      name             = "Build"
+      namespace        = "BuildVariables"
+      output_artifacts = ["BuildArtifact"]
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      region           = var.region
+      run_order        = "1"
+      version          = "1"
+    }
+  }
+
+
+
 }
