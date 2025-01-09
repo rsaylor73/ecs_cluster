@@ -58,6 +58,34 @@ resource "aws_codepipeline" "app_pipeline" {
     }
   }
 
+  stage {
+    name = "Deploy"
 
+    action {
+      category = "Deploy"
+      configuration = {
+        ClusterName = aws_ecs_cluster.my_cluster.name
+        ServiceName = aws_ecs_service.nginx_service.name
+        FileName    = "imagedefinitions.json"
+      }
+      input_artifacts = [
+        "BuildArtifact",
+      ]
+      name             = "Deploy"
+      output_artifacts = []
+      owner            = "AWS"
+      provider         = "ECS"
+      run_order        = 1
+      version          = "1"
+    }
+  }
+
+  depends_on = [
+    aws_codebuild_project.containerAppBuild,
+    aws_ecs_cluster.my_cluster,
+    aws_ecs_service.nginx_service,
+    //aws_ecr_repository.TBD,
+    module.cicd_bucket
+  ]
 
 }
