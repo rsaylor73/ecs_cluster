@@ -43,7 +43,7 @@ resource "aws_codepipeline" "app_pipeline" {
       category = "Build"
 
       configuration = {
-        ProjectName = var.cluster_name
+        ProjectName = aws_codebuild_project.containerAppBuild.name
       }
 
       input_artifacts  = ["SourceArtifact"]
