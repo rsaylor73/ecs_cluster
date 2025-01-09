@@ -58,7 +58,7 @@ resource "aws_codepipeline" "app_pipeline" {
             },
             {
               name  = "AWS_ACCOUNT_ID"
-              type  = "PARAMETER_STORE"
+              type  = "PLAINTEXT"
               value = local.account_id
             },
             {
