@@ -1,18 +1,17 @@
-resource "aws_s3_bucket" "cicd_bucket" {
-  bucket        = var.artifacts_bucket_name
-  force_destroy = true
+resource "random_id" "bucket" {
+  byte_length = 5
 }
 
-resource "aws_s3_bucket_ownership_controls" "control" {
-  bucket = aws_s3_bucket.cicd_bucket.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
+module "cicd_bucket" {
+  source = "terraform-aws-modules/s3-bucket/aws"
 
-resource "aws_s3_bucket_acl" "acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.control]
-
-  bucket = aws_s3_bucket.cicd_bucket.id
+  bucket = "${var.artifacts_bucket_name}-${random_id.bucket.hex}"
   acl    = "private"
+
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
+
+  versioning = {
+    enabled = true
+  }
 }

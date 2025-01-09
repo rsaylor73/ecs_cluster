@@ -8,7 +8,7 @@ resource "aws_codepipeline" "app_pipeline" {
   role_arn = aws_iam_role.apps_codepipeline_role.arn
 
   artifact_store {
-    location = var.artifacts_bucket_name
+    location = module.cicd_bucket.s3_bucket_id
     type     = "S3"
   }
 
