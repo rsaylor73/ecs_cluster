@@ -44,6 +44,40 @@ resource "aws_codepipeline" "app_pipeline" {
 
       configuration = {
         ProjectName = aws_codebuild_project.containerAppBuild.name
+        EnvironmentVariables = jsonencode(
+          [
+            {
+              name  = "environment"
+              type  = "PLAINTEXT"
+              value = "dev"
+            },
+            {
+              name  = "AWS_DEFAULT_REGION"
+              type  = "PLAINTEXT"
+              value = var.region
+            },
+            {
+              name  = "AWS_ACCOUNT_ID"
+              type  = "PARAMETER_STORE"
+              value = local.account_id
+            },
+            {
+              name  = "IMAGE_REPO_NAME"
+              type  = "PLAINTEXT"
+              value = aws_ecr_repository.app_repo.name
+            },
+            {
+              name  = "IMAGE_TAG"
+              type  = "PLAINTEXT"
+              value = "latest"
+            },
+            {
+              name  = "CONTAINER_NAME"
+              type  = "PLAINTEXT"
+              value = var.container_name
+            },
+          ]
+        )
       }
 
       input_artifacts  = ["SourceArtifact"]
@@ -84,7 +118,7 @@ resource "aws_codepipeline" "app_pipeline" {
     aws_codebuild_project.containerAppBuild,
     aws_ecs_cluster.my_cluster,
     aws_ecs_service.nginx_service,
-    //aws_ecr_repository.TBD,
+    aws_ecr_repository.app_repo,
     module.cicd_bucket
   ]
 

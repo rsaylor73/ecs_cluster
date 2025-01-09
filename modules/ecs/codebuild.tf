@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_codebuild_project" "containerAppBuild" {
   badge_enabled  = false
   build_timeout  = 60

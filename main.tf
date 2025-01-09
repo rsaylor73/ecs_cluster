@@ -28,4 +28,5 @@ module "ecs" {
   artifacts_bucket_name = var.artifacts_bucket_name
   github_repo = var.github_repo
   repository_branch = var.repository_branch
+  container_name = var.container_name
 }
