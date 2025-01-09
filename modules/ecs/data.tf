@@ -105,8 +105,8 @@ data "aws_iam_policy_document" "apps_codepipeline_role_policy" {
     resources = ["*"]
     condition {
       test     = "StringEqualsIfExists"
-      values   = ["iam:PassedToService"]
-      variable = [
+      variable = "iam:PassedToService"
+      values   = [
         "cloudformation.amazonaws.com",
         "elasticbeanstalk.amazonaws.com",
         "ec2.amazonaws.com",
