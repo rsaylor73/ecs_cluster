@@ -16,3 +16,7 @@ scale_out_cooldown="300"
 cpu_target_value_si="20"
 scale_in_cooldown_si="300"
 scale_out_cooldown_si="300"
+artifacts_bucket_name="cicd-artifacts-bucket"
+repository_branch="main"
+github_repo="rsaylor73/hello-world-ecs" # fork from https://github.com/rsaylor73/hello-world-ecs
+container_name="nginx"

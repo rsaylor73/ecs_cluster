@@ -25,4 +25,8 @@ module "ecs" {
   cpu_target_value_si = var.cpu_target_value_si
   scale_in_cooldown_si = var.scale_in_cooldown_si
   scale_out_cooldown_si = var.scale_out_cooldown_si
+  artifacts_bucket_name = var.artifacts_bucket_name
+  github_repo = var.github_repo
+  repository_branch = var.repository_branch
+  container_name = var.container_name
 }

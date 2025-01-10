@@ -16,3 +16,7 @@ variable "scale_out_cooldown" {}
 variable "cpu_target_value_si" {}
 variable "scale_in_cooldown_si" {}
 variable "scale_out_cooldown_si" {}
+variable "artifacts_bucket_name" {}
+variable "repository_branch" {}
+variable "github_repo" {}
+variable "container_name" {}
