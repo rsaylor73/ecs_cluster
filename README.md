@@ -34,7 +34,11 @@ COPY . /usr/share/nginx/html
 
 Replace <ACCOUNT_ID> and <REGION> with its correct value for your AWS account.
 
+Force the pipeline to run and the container will be updated with your web files from the CI/CD repo.
+
 ### Destroy Cluster
+
+Note: you must delete all images in the ECR repository first.
 
 ```
 terraform plan -destroy
