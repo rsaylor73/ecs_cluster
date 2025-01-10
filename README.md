@@ -38,7 +38,8 @@ Force the pipeline to run and the container will be updated with your web files 
 
 ### Destroy Cluster
 
-Note: you must delete all images in the ECR repository first.
+- You must delete all images in the ECR repository first.
+- All files in S3 buckets must also be deleted first.
 
 ```
 terraform plan -destroy
